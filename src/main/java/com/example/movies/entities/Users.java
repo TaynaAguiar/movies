@@ -1,4 +1,7 @@
+
 package com.example.movies.entities;
+
+import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.movies.enums.ProfileEnum;
 
@@ -21,7 +27,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+public class Users implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +48,39 @@ public class Users {
 	private boolean active = true;
 	
 	@Enumerated(EnumType.STRING)
-	private ProfileEnum profile;
+	private Collection<? extends GrantedAuthority> profile;
 	
 	@ManyToOne
 	@JoinColumn(name = "language_id")
 	private Languages language;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.profile;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
