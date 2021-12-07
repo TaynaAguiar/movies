@@ -9,12 +9,10 @@ import lombok.Data;
 public class BadRequestExceptionDetails {
 	
 	private String title;
+	
 	private int status;
+	
 	private String message;
 	
-	/*public static ResponseEntity<BadRequestExceptionDetails> builder() {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 }

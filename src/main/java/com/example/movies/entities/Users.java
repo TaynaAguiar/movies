@@ -1,8 +1,11 @@
 
 package com.example.movies.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,9 +16,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.movies.enums.ProfileEnum;
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,12 +34,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Users implements UserDetails {
 
+	public ProfileEnum getProfile() {
+		return profile;
+	}
+
+
+	public void setProfile(ProfileEnum profile) {
+		this.profile = profile;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
 	private String name;
 	
 	private int cpf;
@@ -47,18 +62,24 @@ public class Users implements UserDetails {
 	
 	private boolean active = true;
 	
+	@Column(name = "profile", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Collection<? extends GrantedAuthority> profile;
+	private ProfileEnum profile;
 	
 	@ManyToOne
 	@JoinColumn(name = "language_id")
 	private Languages language;
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.profile;
-	}
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 
+        list.add(new SimpleGrantedAuthority(profile.name()));
+
+        return list;
+    }
+
+	
 	@Override
 	public String getUsername() {
 		return this.email;
@@ -83,4 +104,7 @@ public class Users implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	
+	
 }
