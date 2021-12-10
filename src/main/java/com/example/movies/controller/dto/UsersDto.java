@@ -20,9 +20,9 @@ public class UsersDto {
 	
 	private String name;
 	
-	private int cpf;
+	private String cpf;
 	
-	private int cellPhone;
+	private String cellPhone;
 	
 	private String email;
 		

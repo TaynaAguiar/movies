@@ -3,12 +3,13 @@ package com.example.movies.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,7 @@ public class UsersController {
 		List<Users> users = usersService.findAll();
 		return UsersDto.convert(users);
 	}
+
 	
 	@GetMapping(value = "/users/{id}")
 	public List<UsersDto> listUser(@PathVariable(value="id") long id){
@@ -46,14 +48,25 @@ public class UsersController {
 		List<Users> users = usersService.findAll();
 		return UsersDto.convert(users);
 	}
-	 
-	@PostMapping(value = "/users/register")
-	public ResponseEntity<Users> Register(@RequestBody @Validated Users users, UriComponentsBuilder uriBuilder) {
+	
+	/*@PostMapping(value = "/users/register")
+	public ResponseEntity<Users> Register(@RequestBody @Valid Users users, UriComponentsBuilder uriBuilder) {
 		usersService.save(users);
 		
 		URI uri = uriBuilder.path("/movies/users/register/{id}").buildAndExpand(users.getId()).toUri();
-		return ResponseEntity.created(uri).body(new Users());
+		return ResponseEntity.created(uri).body(users);
+	}*/
+	
+	@PostMapping(value = "/users/register")
+	public Users createUser(@RequestBody @Valid Users user) {
+		return usersService.save(user);
 	}
+	
+	@PutMapping(value = "/users/update/{id}")
+	public Users update (@PathVariable Long id, @RequestBody @Valid Users user) {
+		return  this.usersService.update(user);
+	}
+
 	
 	
 }

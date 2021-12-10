@@ -14,13 +14,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.movies.enums.ProfileEnum;
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,30 +37,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Users implements UserDetails {
 
-	public ProfileEnum getProfile() {
-		return profile;
-	}
-
-
-	public void setProfile(ProfileEnum profile) {
-		this.profile = profile;
-	}
-
 	private static final long serialVersionUID = 1L;
-
+ 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
+	@NotNull(message = "This field cannot be null")
+	@NotEmpty(message = "This field cannot be empty")
 	private String name;
 	
-	private int cpf;
+	@CPF
+	private String cpf;
 	
-	private int cellPhone;
+	@NotNull(message = "This field cannot be null")
+	private String cellPhone;
 	
+	@NotNull(message = "This field cannot be null")
+	@Email
 	private String email;
 	
+	@NotNull(message = "This field cannot be null")
+	@NotEmpty(message = "This field cannot be empty")
 	private String password;
 	
 	private boolean active = true;
@@ -105,6 +106,6 @@ public class Users implements UserDetails {
 		return true;
 	}
 
-	
+		
 	
 }
