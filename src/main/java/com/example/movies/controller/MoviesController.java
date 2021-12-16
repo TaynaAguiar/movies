@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,15 +33,8 @@ public class MoviesController {
 	}
 	
 	@GetMapping(value = "/list/{id}")
-	public List<Movies> listMovies(@PathVariable(value="id") long id){
-		
-		List<Movies> movies = moviesService.findById(id);
-		if(movies != null) {
-			
-			return moviesService.findById(id);
-		}
-		 
-		return moviesService.findAll();
+	public Movies getById(@PathVariable(value="id") long id){
+		return moviesService.findById(id);
 	}
 	
 	@PostMapping(value = "/register")
@@ -50,6 +44,18 @@ public class MoviesController {
 	
 	@PutMapping(value = "/update/{id}")
 	public Movies update (@PathVariable Long id, @RequestBody @Valid Movies movies) {
+		return  this.moviesService.update(movies);
+	}
+	
+	@DeleteMapping(value = "/delete/{id}")
+	public void delete(@PathVariable Long id) {
+		moviesService.deleteById(id);
+	}
+	
+	@PutMapping(value = "/deactive/{id}")
+	public Movies deactive (@PathVariable Long id) {
+		Movies movies = moviesService.findById(id);
+		movies.setActive(false);
 		return  this.moviesService.update(movies);
 	}
 }

@@ -14,7 +14,7 @@ public class RestExceptionHandler {
 				BadRequestExceptionDetails.builder()
 					.status(HttpStatus.BAD_REQUEST.value())
 					.title("BadRequestException")
-					.message(bre.getClass().getName())
+					.message(bre.getMessage())
 					.build(), HttpStatus.BAD_REQUEST);
 					
 	}

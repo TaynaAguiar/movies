@@ -43,19 +43,25 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/swagger-ui/index.html").permitAll()
-		.antMatchers(HttpMethod.GET, "/movies/users").permitAll()
-		.antMatchers(HttpMethod.GET, "/movies/users/{id}").permitAll()
-		.antMatchers(HttpMethod.GET, "/movies/categories").permitAll()
-		.antMatchers(HttpMethod.GET, "/movies/categories/{id}").permitAll()
-		.antMatchers(HttpMethod.POST, "/movies/categories/register").permitAll()
-		.antMatchers(HttpMethod.PUT, "/movies/categories/update/{id}").permitAll()
-		.antMatchers(HttpMethod.POST, "/movies/users/register").permitAll()
-		.antMatchers(HttpMethod.POST, "/movies/register").permitAll()
+		.antMatchers(HttpMethod.GET, "/swagger-ui/index.html").permitAll() 
+		.antMatchers(HttpMethod.GET, "/movies/users").access("hasRole('VISITOR')")
+		.antMatchers(HttpMethod.GET, "/movies/users/{id}").access("hasRole('VISITOR')")
+		.antMatchers(HttpMethod.GET, "/movies/categories").access("hasRole('VISITOR')")
+		.antMatchers(HttpMethod.GET, "/movies/categories/{id}").access("hasRole('VISITOR')")
 		.antMatchers(HttpMethod.GET, "/movies/list").permitAll()
 		.antMatchers(HttpMethod.GET, "/movies/list/{id}").permitAll()
-		.antMatchers(HttpMethod.PUT, "/movies/users/update/{id}").permitAll()
-		.antMatchers(HttpMethod.PUT, "/movies/update/{id}").permitAll()
+		.antMatchers(HttpMethod.POST, "/movies/categories/register").access("hasRole('ADMINISTRATOR')")
+		.antMatchers(HttpMethod.POST, "/movies/users/register").access("hasRole('ADMINISTRATOR')")
+		.antMatchers(HttpMethod.POST, "/movies/register").permitAll()
+		.antMatchers(HttpMethod.PUT, "/movies/categories/update/{id}").access("hasRole('ADMINISTRATOR')")
+		.antMatchers(HttpMethod.PUT, "/movies/users/update/{id}").access("hasRole('ADMINISTRATOR')")
+		.antMatchers(HttpMethod.PUT, "/movies/update/{id}").access("hasRole('ADMINISTRATOR')")
+		.antMatchers(HttpMethod.PUT, "/movies/users/deactive/{id}").permitAll()
+		.antMatchers(HttpMethod.PUT, "/movies/categories/deactive/{id}").permitAll()
+		.antMatchers(HttpMethod.PUT, "/movies/deactive/{id}").permitAll()
+		.antMatchers(HttpMethod.DELETE, "/movies/users/delete/{id}").access("hasRole('ADMINISTRATOR')")
+		.antMatchers(HttpMethod.DELETE, "/movies/delete/{id}").access("hasRole('ADMINISTRATOR')")
+		.antMatchers(HttpMethod.DELETE, "/movies/categories/delete/{id}").access("hasRole('ADMINISTRATOR')")
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
@@ -67,6 +73,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 	}
 		
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder(){
+	    return new BCryptPasswordEncoder();
+	}
 	
 	
 }

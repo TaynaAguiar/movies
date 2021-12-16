@@ -21,16 +21,20 @@ public class MoviesService {
 		return moviesRepository.findAll();
 	}
 
-	public List<Movies> findById(long userId){
+	public Movies findById(long userId){
 		return moviesRepository.findById(userId);
 	}
 
-	public Movies save(@RequestBody Movies movies) {
+	public Movies save(Movies movies) {
 		return moviesRepository.save(movies);
 	}
 
-	public Movies update(@Valid Movies movies) {
+	public Movies update(Movies movies) {
 		findById(movies.getId());
 		return moviesRepository.saveAndFlush(movies);
+	}
+
+	public void deleteById(Long id) {
+		moviesRepository.deleteById(id);
 	}
 }

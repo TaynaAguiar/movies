@@ -31,6 +31,10 @@ public class CategoriesService {
 	public Categories update(@Valid Categories categories) {
 		return categoriesRepository.saveAndFlush(categories);
 	}
+
+	public void deleteById(Long id) {
+		categoriesRepository.deleteById(id);
+	}
 	
 	
 	

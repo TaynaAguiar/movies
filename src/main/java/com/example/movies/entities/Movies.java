@@ -1,8 +1,5 @@
 package com.example.movies.entities;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -56,6 +53,8 @@ public class Movies {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Categories category;
+	
+	private boolean active = true;
 
 	
 	

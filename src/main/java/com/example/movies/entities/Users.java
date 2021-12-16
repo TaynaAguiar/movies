@@ -48,12 +48,14 @@ public class Users implements UserDetails {
 	private String name;
 	
 	@CPF
+	@Column (unique = true)
 	private String cpf;
 	
 	@NotNull(message = "This field cannot be null")
 	private String cellPhone;
 	
 	@NotNull(message = "This field cannot be null")
+	@Column (unique = true)
 	@Email
 	private String email;
 	
