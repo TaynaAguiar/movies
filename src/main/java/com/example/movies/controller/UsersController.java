@@ -34,17 +34,9 @@ public class UsersController {
 		return UsersDto.convert(users);
 	}
 
-	
 	@GetMapping(value = "/users/{id}")
-	public List<UsersDto> listUser(@PathVariable(value="id") long id){
-		
-		List<Users> user = usersService.findById(id);
-		if(user != null) {
-			return UsersDto.convertUser(user);
-		}
-		
-		List<Users> users = usersService.findAll();
-		return UsersDto.convert(users);
+	public Users getById(@PathVariable(value="id") long id){
+		return usersService.findById(id);
 	}
 	
 	@PostMapping(value = "/users/register")
@@ -62,10 +54,11 @@ public class UsersController {
 		usersService.deleteById(id);
 	}
 	
-	@PutMapping(value = "/users/deactive/{id}")
-	public Users deactive (@PathVariable Long id, @RequestBody @Valid Users user) {
-		user.setActive(false);
-		return  this.usersService.update(user);
+	@PutMapping(value = "/deactive/{id}")
+	public Users deactive (@PathVariable Long id) {
+		Users users = usersService.findById(id);
+		users.setActive(false);
+		return  this.usersService.update(users);
 	}
 	
 

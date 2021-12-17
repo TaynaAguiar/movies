@@ -24,7 +24,7 @@ public class CategoriesService {
 		return categoriesRepository.save(categories);
 	}
 
-	public List<Categories> findById(long id) {
+	public Categories findById(long id) {
 		return categoriesRepository.findById(id);
 	}
 

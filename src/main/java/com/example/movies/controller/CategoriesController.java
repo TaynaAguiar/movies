@@ -33,16 +33,9 @@ public class CategoriesController {
 	}
 	
 	@GetMapping(value = "/categories/{id}")
-	public List<Categories> listCategories(@PathVariable(value="id") long id){
-		
-		List<Categories> movies = categoriesService.findById(id);
-		if(movies != null) {
-			
-			return categoriesService.findById(id);
-		}
-		 
-		return categoriesService.findAll();
-	}
+	public Categories getById(@PathVariable(value="id") long id){
+		return categoriesService.findById(id);
+	}	
 	
 	@PostMapping(value = "/categories/register")
 	public Categories create(@RequestBody @Valid Categories categories) {
@@ -59,11 +52,11 @@ public class CategoriesController {
 		categoriesService.deleteById(id);
 	}
 	
-	@PutMapping(value = "/categories/deactive/{id}")
-	public Categories deactive (@PathVariable Long id, @RequestBody @Valid Categories categories) {
+	@PutMapping(value = "/deactive/{id}")
+	public Categories deactive (@PathVariable Long id) {
+		Categories categories = categoriesService.findById(id);
 		categories.setActive(false);
 		return  this.categoriesService.update(categories);
 	}
-	
 
 }
