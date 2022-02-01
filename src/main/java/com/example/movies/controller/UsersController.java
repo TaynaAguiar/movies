@@ -54,7 +54,7 @@ public class UsersController {
 		usersService.deleteById(id);
 	}
 	
-	@PutMapping(value = "/deactive/{id}")
+	@PutMapping(value = "users/deactive/{id}")
 	public Users deactive (@PathVariable Long id) {
 		Users users = usersService.findById(id);
 		users.setActive(false);

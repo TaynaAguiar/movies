@@ -19,14 +19,15 @@ public class CategoriesService {
 	public List<Categories> findAll() {
 		return categoriesRepository.findAll();
 	}
+	
+	public Categories findById(long id) {
+		return categoriesRepository.findById(id);
+	}
 
 	public Categories save(@Valid Categories categories) {
 		return categoriesRepository.save(categories);
 	}
 
-	public Categories findById(long id) {
-		return categoriesRepository.findById(id);
-	}
 
 	public Categories update(@Valid Categories categories) {
 		return categoriesRepository.saveAndFlush(categories);

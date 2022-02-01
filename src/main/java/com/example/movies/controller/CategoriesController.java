@@ -52,7 +52,7 @@ public class CategoriesController {
 		categoriesService.deleteById(id);
 	}
 	
-	@PutMapping(value = "/deactive/{id}")
+	@PutMapping(value = "/categories/deactive/{id}")
 	public Categories deactive (@PathVariable Long id) {
 		Categories categories = categoriesService.findById(id);
 		categories.setActive(false);
